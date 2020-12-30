@@ -1,0 +1,36 @@
+package com.assesment.test;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class BankTest {
+
+	public static void main(String[] args) throws InterruptedException {
+		
+		System.setProperty("webdriver.gecko.driver","C:\\geckodriver.exe");
+		WebDriver d = new FirefoxDriver();
+		d.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		d.get("https://www.online.citibank.co.in/");// Go to https://www.online.citibank.co.in/ 
+		d.manage().window().maximize();
+		
+		WebElement ele = d.findElement(By.xpath("/html/body/div[3]/div[2]/div[2]/div[5]/ul[2]/li[4]/a/img"));
+		ele.click(); //Click on "Branch/ATM"
+		WebElement ele1= d.findElement(By.className("sbSelector"));//Choose "Citibank Branch" dropdown
+		ele1.click();
+		Actions act = new Actions(d);
+		act.moveToElement(ele).perform();
+		d.findElement(By.linkText("Kolkata")).click();//Select "Kolkata"
+		String str = "/html/body/div[1]/div[2]/div[3]/ul[2]/div[2]/div/div[3]/div[1]/div/div/div[18]/ul/li[1]/br[1]";
+		WebElement ele2 = d.findElement(By.xpath(str));
+		System.out.println("Phone no. is "+ele2);//Fetch and provide the Phone number as output
+		
+		Thread.sleep(5000);
+		d.close();
+	}
+
+}
